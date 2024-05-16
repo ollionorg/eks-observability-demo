@@ -77,7 +77,7 @@ module "eks_monitoring" {
   source = "github.com/aws-observability/terraform-aws-observability-accelerator//modules/eks-monitoring?ref=v2.12.2"
 
   eks_cluster_id     = data.aws_eks_cluster.this.id
-  irsa_iam_role_name = "${data.aws_eks_cluster.this.name}-adot-role-irsa"
+  irsa_iam_role_name = "${local.eks_cluster_name}-adot-role-irsa"
 
   enable_alertmanager       = true
   enable_managed_prometheus = true
@@ -127,7 +127,7 @@ module "eks_monitoring" {
 }
 
 resource "aws_sns_topic" "prometheus_alerts_topic" {
-  name = "grafana-alerts-${data.aws_eks_cluster.this.name}"
+  name = "grafana-alerts-${local.eks_cluster_name}"
 }
 
 resource "aws_sns_topic_subscription" "grafana_alert_sub" {

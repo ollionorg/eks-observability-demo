@@ -1,0 +1,7 @@
+# https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml
+replicaCount: 2
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+vpcId: ${vpc_id}
