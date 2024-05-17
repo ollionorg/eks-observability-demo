@@ -33,8 +33,8 @@ Deploy EKS Observability resources.
    terraform init
    terraform apply
    ```
+1. Verify 
 
-Talk about Managed Grafana and Observability accelerator modules
 
 #### Grafana Charts
 
@@ -46,13 +46,41 @@ Deploy one of the sample applications provided by AWS.
 
 https://github.com/aws-observability/aws-observability-accelerator/blob/main/artifacts/k8s-deployment-manifest-templates/nginx/nginx-traffic-sample.yaml
 
-```bash
-curl https://raw.githubusercontent.com/aws-observability/aws-observability-accelerator/main/artifacts/k8s-deployment-manifest-templates/nginx/nginx-traffic-sample.yaml | 
-sed 's/{{namespace}}/sample-app/g' | 
-sed 's/{{external_ip}}/sample-app/g' | 
-kubectl apply -f -
-```
+1. Pull the example application from github.
+   ```bash
+   curl https://raw.githubusercontent.com/aws-observability/aws-observability-accelerator/main/artifacts/k8s-deployment-manifest-templates/nginx/nginx-traffic-sample.yaml > nginx-traffic-sample.yaml
+   ```
+1. Replace all occurrances of `{{namespace}}` with a valid namespace name
+   ```bash
+   sed -i 's/{{namespace}}/sample-app/g' nginx-traffic-sample.yaml
+   ```
+1. Retrieve the load balancer DNS name from the Ingress resource in your new namespace
+   ```bash
+   sed -i "s/{{external_ip}}/$(kubectl -n ingress-nginx get svc ingress-nginx-controller -o 'jsonpath={$.status.loadBalancer.ingress[0].hostname}')/g" nginx-traffic-sample.yaml
+   ```
+1. Deploy the sample application manifest
+   ```
+   kubectl apply -f nginx-traffic-sample.yaml
+   ```
+1. Verify template deployed resources
+   ```bash
+   kubectl get ingress,pod,svc -n sample-app
+   ```
 
+   You should see similar output to the following
+   ```
+   NAME                    READY   STATUS    RESTARTS   AGE
+   pod/apple-app           1/1     Running   0          2m53s
+   pod/banana-app          1/1     Running   0          2m53s
+   pod/traffic-generator   1/1     Running   0          2m53s
+
+   NAME                     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+   service/apple-service    ClusterIP   172.20.37.121   <none>        5678/TCP   2m53s
+   service/banana-service   ClusterIP   172.20.42.197   <none>        5678/TCP   2m53s
+
+   NAME                                           CLASS   HOSTS                                                                 ADDRESS                                                               PORTS   AGE
+   ingress.networking.k8s.io/ingress-nginx-demo   nginx   nginx-eksblueprintblue-82fc84117349e7fb.elb.us-west-2.amazonaws.com   nginx-eksblueprintblue-82fc84117349e7fb.elb.us-west-2.amazonaws.com   80      2m53s
+   ```
 
 
 <!-- BEGIN_TF_DOCS -->
