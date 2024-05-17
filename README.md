@@ -36,9 +36,9 @@ Deploy EKS Observability resources.
 1. Verify 
 
 
-#### Grafana Charts
+#### Grafana Dashboards and Alerts
 
-Baseline charts are deployed from the [Observability Accelerator artifacts repository](https://github.com/aws-observability/aws-observability-accelerator/tree/main/artifacts).
+Baseline dashboards and alerts are deployed from the [Observability Accelerator artifacts repository](https://github.com/aws-observability/aws-observability-accelerator/tree/main/artifacts).  These artifacts are based on the [Kuberenetes Mixin repo for Kuberentes monitoring](https://github.com/kubernetes-monitoring/kubernetes-mixin).
 
 ### Deploy Sample App
 
