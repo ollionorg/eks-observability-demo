@@ -7,6 +7,7 @@ module "managed_grafana" {
   description               = "AWS Managed Grafana service for ${var.grafana_workspace_name}"
   permission_type           = "SERVICE_MANAGED"
   data_sources              = ["CLOUDWATCH", "PROMETHEUS", "XRAY"]
+  authentication_providers  = ["SAML"]
   notification_destinations = ["SNS"]
   stack_set_name            = var.grafana_workspace_name
   grafana_version           = var.grafana_version
