@@ -1,0 +1,20 @@
+#!/bin/sh
+
+echo "Formatting Terraform files..."
+formatted=$(terraform fmt -recursive)
+echo $formatted | tr ' ' '\n'
+echo "Done."
+
+echo "Generating Terraform Docs..."
+# Run terraform-docs for every submodule
+# This is done directly because the tf docs command will also create an excess
+# README file for the modules directory itself
+for f in modules/*
+do
+    if [ -d ./$f ]; then
+        terraform-docs --lockfile=false ./$f
+    fi
+done
+
+terraform-docs --lockfile=false .
+echo "Done."
