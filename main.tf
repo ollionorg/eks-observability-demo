@@ -13,6 +13,20 @@ module "managed_grafana" {
   grafana_version           = var.grafana_version
   enable_alerts             = var.grafana_enable_alerts
 
+
+
+  # Workspace SAML configuration
+  saml_admin_role_values  = ["admin"]
+  saml_editor_role_values = ["editor"]
+  saml_email_assertion    = "mail"
+  saml_groups_assertion   = "groups"
+  saml_login_assertion    = "mail"
+  saml_name_assertion     = "displayName"
+  saml_org_assertion      = "org"
+  saml_role_assertion     = "role"
+  saml_idp_metadata_url   = var.saml_idp_metadata_url
+
+
   configuration = jsonencode({
     unifiedAlerting = {
       enabled = true

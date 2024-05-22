@@ -7,24 +7,6 @@ module "addons" {
   cluster_version   = data.aws_eks_cluster.this.version
   oidc_provider_arn = local.oidc_provider_arn
 
-  eks_addons = {
-    coredns = {
-      most_recent                 = true
-      resolve_conflicts_on_create = "OVERWRITE"
-      resolve_conflicts_on_update = "OVERWRITE"
-    }
-    kube-proxy = {
-      most_recent                 = true
-      resolve_conflicts_on_create = "OVERWRITE"
-      resolve_conflicts_on_update = "OVERWRITE"
-    }
-    vpc-cni = {
-      most_recent                 = true
-      resolve_conflicts_on_create = "OVERWRITE"
-      resolve_conflicts_on_update = "OVERWRITE"
-    }
-  }
-
   enable_aws_load_balancer_controller = true
   aws_load_balancer_controller = {
     chart_version = "1.7.1"

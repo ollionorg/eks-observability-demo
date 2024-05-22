@@ -37,6 +37,12 @@ variable "grafana_enable_alerts" {
   default     = true
 }
 
+variable "saml_idp_metadata_url" {
+  description = "URL of the SAML IdP metadata"
+  type        = string
+  
+}
+
 variable "grafana_admin_groups" {
   description = "List of AWS SSO groups to assign as administrators in Amazon Managed Grafana"
   type        = list(string)
