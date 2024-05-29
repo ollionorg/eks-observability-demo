@@ -11,6 +11,7 @@ Deploy EKS Observability resources.
    - EKS security groups should allow HTTPS ingress from your Cloud9 instance.
 1. IAM Identity Center is configured in the account with a user and group.
 1. A running Cloud9 environment with Administrator access for the instance IAM role.
+1. Ensure that kubectl is available from the Cloud9 environment with `kubectl version --client`
 1. Ensure terraform is available from the Cloud9 environment with `terraform version`
 
 ### Setup
@@ -20,17 +21,13 @@ Deploy EKS Observability resources.
    1. In the Cloud9 IDE, click on the cog icon at the top right of the IDE
    1. Scroll down to `AWS Settings`
    1. Turn off `AWS managed temporary credentials`
+1. If kubectl is not install, install it with the appropriate method for your OS [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 1. Connect to your EKS cluster and confirm access
    ```bash
    aws eks update-kubeconfig --name <your-cluster-arn> --alias <optional-kube-context-alias>
    kubectl get all -A
    ```
-1. If Terraform is not installed, install it with:
-   ```bash
-   wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-   echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt sources.list.d/hashicorp.list
-   sudo apt update && sudo apt install terraform
-   ```
+1. If Terraform is not installed, install it with the appropriate method for your OS [here](https://learn.hashicorp.com/tutorials/terraform/install-cli)
 
 ### Deploy AWS Observability Accelerator
 
@@ -45,21 +42,16 @@ Deploy EKS Observability resources.
 
 #### Grafana Dashboards and Alerts
 
-Baseline dashboards and alerts are deployed from the [Observability Accelerator artifacts repository](https://github.com/aws-observability/aws-observability-accelerator/tree/main/artifacts).  These artifacts are based on the [Kuberenetes Mixin repo for Kuberentes monitoring](https://github.com/kubernetes-monitoring/kubernetes-mixin).
+Baseline dashboards and alerts are deployed from the [Observability Accelerator artifacts repository](https://github.com/aws-observability/aws-observability-accelerator/tree/main/artifacts).  These artifacts are based on the [Kubernetes Mixin repo for Kubernetes monitoring](https://github.com/kubernetes-monitoring/kubernetes-mixin).
 
 ### Deploy Sample App
 
-Deploy one of the sample applications provided by AWS.
+Let's deploy a modified version of a sample application provided by AWS.  Original source can be found [here](https://github.com/aws-observability/aws-observability-accelerator/blob/main/artifacts/k8s-deployment-manifest-templates/nginx/nginx-traffic-sample.yaml)
 
-https://github.com/aws-observability/aws-observability-accelerator/blob/main/artifacts/k8s-deployment-manifest-templates/nginx/nginx-traffic-sample.yaml
 
-1. Pull the example application from github.
+1. From within this demo repo, change to the `sample-app` directory.
    ```bash
-   curl https://raw.githubusercontent.com/aws-observability/aws-observability-accelerator/main/artifacts/k8s-deployment-manifest-templates/nginx/nginx-traffic-sample.yaml > nginx-traffic-sample.yaml
-   ```
-1. Replace all occurrances of `{{namespace}}` with a valid namespace name
-   ```bash
-   sed -i 's/{{namespace}}/sample-app/g' nginx-traffic-sample.yaml
+   cd sample-app
    ```
 1. Retrieve the load balancer DNS name from the Ingress resource in your new namespace
    ```bash
