@@ -23,7 +23,7 @@ module "managed_grafana" {
   saml_login_assertion    = "mail"
   saml_name_assertion     = "displayName"
   saml_org_assertion      = "org"
-  saml_role_assertion     = "role"
+  saml_role_assertion     = "userType"
   saml_idp_metadata_url   = var.saml_idp_metadata_url
 
 
