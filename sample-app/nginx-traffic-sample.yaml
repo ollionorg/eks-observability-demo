@@ -97,7 +97,7 @@ metadata:
   namespace: sample-app
 spec:
   rules:
-    - host: { { external_ip } }
+    - host: {{external_ip}}
       http:
         paths:
           - path: /apple
