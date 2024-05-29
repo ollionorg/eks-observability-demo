@@ -11,6 +11,7 @@ Deploy EKS Observability resources.
    - EKS security groups should allow HTTPS ingress from your Cloud9 instance.
 1. IAM Identity Center is configured in the account with a user and group.
 1. A running Cloud9 environment with Administrator access for the instance IAM role.
+1. Ensure that kubectl is available from the Cloud9 environment with `kubectl version --client`
 1. Ensure terraform is available from the Cloud9 environment with `terraform version`
 
 ### Setup
@@ -20,6 +21,7 @@ Deploy EKS Observability resources.
    1. In the Cloud9 IDE, click on the cog icon at the top right of the IDE
    1. Scroll down to `AWS Settings`
    1. Turn off `AWS managed temporary credentials`
+1. If kubectl is not install, install it with the appropriate method for your OS [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 1. Connect to your EKS cluster and confirm access
    ```bash
    aws eks update-kubeconfig --name <your-cluster-arn> --alias <optional-kube-context-alias>
